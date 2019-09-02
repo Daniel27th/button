@@ -1,8 +1,14 @@
 from setuptools import setup, find_packages
 
+# read the contents of your README file
+from os import path
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='button',
-    version='0.0.1',
+    version='0.0.2.dev1',
     packages=find_packages('src'),
     package_dir={'': 'src'},
 
@@ -20,6 +26,9 @@ setup(
     classifiers=[
         'License :: OSI Approved :: MIT License'
     ],
+
+    long_description=long_description,
+    long_description_content_type='text/markdown',
 
     entry_points={
         'console_scripts': [
