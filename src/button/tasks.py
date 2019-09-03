@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import argparse
-import shlex, subprocess
+
+from .utils import execute_shell_command
 
 class Task(ABC):
     def __init__(self, name, desc):
@@ -30,6 +31,5 @@ class CommandExecTask(Task):
         pass
 
     def run(self, _parsed):
-        cmd = "sh -c '{}'".format(self.command)
-        output = subprocess.check_output(shlex.split(cmd))
-        print(output.decode('utf-8'))
+        retval, _ =  execute_shell_command(self.command)
+        return retval

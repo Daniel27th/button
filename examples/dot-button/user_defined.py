@@ -11,6 +11,7 @@ class MultipleCommandsTask(CommandExecTask):
         script = '''
         MYVAR="hello"
         echo $MYVAR, world
+        find ~
         '''
         super().__init__('script', 'executes multiple commands', script)
         self.set_group('shell')
