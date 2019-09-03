@@ -17,4 +17,5 @@ def execute_shell_command(command, preserve_output=False):
             print(line)
             if preserve_output:
                 lines.append(line)
+        time.sleep(0.001)
     return retval, lines
