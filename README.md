@@ -21,4 +21,4 @@ $ btn --taskdir mybuttons tasks
 ```
 
 ## Examples
-See, [examples](https://github.com/somssi/butotn/examples).
+See, [examples](https://github.com/somssi/button/examples).
