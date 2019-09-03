@@ -1,3 +1,4 @@
+import os
 import sys
 import argparse
 import importlib
@@ -16,19 +17,34 @@ class EnumerationTask(Task):
         pass
 
     def run(self, _parsed):
-        names = [task.name for task in self.tasks]
-        descs = [task.desc for task in self.tasks]
-        maxlen_names = max([len(name) for name in names])
+        maxlen_names = 0
+        groups = {}
+        for task in self.tasks:
+            name, desc, group = task.name, task.desc, task.group
+            if group not in groups:
+                groups[group] = []
+            groups[group].append((task.name, task.desc))
+            maxlen_names = max(maxlen_names, len(task.name))
 
         print('Tasks:')
-        for i in range(len(names)):
-            print('  {:{width}}  {}'.format(names[i], descs[i], width=maxlen_names))
+        for group, tasks in groups.items():
+            if group is not None:
+                print('-- [{}]'.format(group))
+                for name, desc in sorted(tasks, key=lambda x: x[0]):
+                    print('  {:{width}}  {}'.format(name, desc, width=maxlen_names))
+
+        if None in groups:
+            print('--')
+            for name, desc in sorted(groups[None], key=lambda x: x[0]):
+                print('  {:{width}}  {}'.format(name, desc, width=maxlen_names))
 
 
 def main():
     parser = argparse.ArgumentParser(description='button', add_help=False)
-    parser.add_argument('--taskdir', type=str, default='.button')
+    parser.add_argument('--taskdir', type=str,
+                        default=os.environ.get('BUTTON_TASKDIR', '.button'))
     parser.add_argument('--no-timing', action='store_true')
+    parser.add_argument('--verbose', action='store_true')
 
     # load user-defined tasks from taskdir
     parsed, _ = parser.parse_known_args()
@@ -54,6 +70,9 @@ def main():
 
     parsed = parser.parse_args()
     if hasattr(parsed, 'func'):
+        if parsed.verbose:
+            print('[Taskdir: {}]'.format(parsed.taskdir))
+
         time_started = time.time()
         parsed.func(parsed)
         if not parsed.no_timing:

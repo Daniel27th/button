@@ -4,6 +4,7 @@ from button.tasks import Task, CommandExecTask
 class DisplayDateTask(CommandExecTask):
     def __init__(self):
         super().__init__('date', 'display current datetime', 'date')
+        self.set_group('shell')
 
 class MultipleCommandsTask(CommandExecTask):
     def __init__(self):
@@ -12,6 +13,7 @@ class MultipleCommandsTask(CommandExecTask):
         echo $MYVAR, world
         '''
         super().__init__('script', 'executes multiple commands', script)
+        self.set_group('shell')
 
 class Epoch2DateTask(Task):
     def __init__(self):

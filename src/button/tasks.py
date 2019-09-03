@@ -7,6 +7,10 @@ class Task(ABC):
         """Init a task with a name and a description"""
         self.name = name
         self.desc = desc
+        self.group = None
+
+    def set_group(self, group):
+        self.group = group
 
     @abstractmethod
     def add_arguments(self, parser):
