@@ -13,7 +13,7 @@ def execute_shell_command(command, preserve_output=False):
             break
         output = p.stdout.readline()
         if output:
-            line = output.decode('utf-8').strip()
+            line = output.decode('utf-8').rstrip()
             print(line)
             if preserve_output:
                 lines.append(line)
