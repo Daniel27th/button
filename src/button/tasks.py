@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-import argparse
 
-from .utils import execute_shell_command
+from .utils import execute_shell_command, execute_shell_script
+
 
 class Task(ABC):
     def __init__(self, name, desc):
@@ -22,14 +22,37 @@ class Task(ABC):
         """Define a job this task will do"""
 
 
-class CommandExecTask(Task):
-    def __init__(self, alias, desc, command):
+class ExecuteCommandTask(Task):
+    def __init__(self, alias, desc, command, shell="bash"):
         super().__init__(alias, desc)
         self.command = command
+        self.shell = shell
 
-    def add_arguments(self, parser):
+    def add_arguments(self, _parser):
         pass
 
-    def run(self, _parsed):
-        retval, _ =  execute_shell_command(self.command)
+    def run(self, parsed):
+        if parsed.verbose:
+            print(f"Command: {self.command}")
+        retval, _ = execute_shell_command(self.command, self.shell)
+        return retval
+
+
+class ExecuteScriptTask(Task):
+    def __init__(self, alias, desc, script, shell="bash"):
+        super().__init__(alias, desc)
+        self.script = script
+        self.shell = shell
+
+    def add_arguments(self, _parser):
+        pass
+
+    def run(self, parsed):
+        if parsed.verbose:
+            print(f"Parsed: {parsed.__dict__}")
+
+        script = self.script.format(**parsed.__dict__)
+        if parsed.verbose:
+            print(f"Script: {script}")
+        retval, _ = execute_shell_script(script, self.shell)
         return retval

@@ -1,29 +1,33 @@
 import datetime
-from button.tasks import Task, CommandExecTask
+from button.tasks import Task, ExecuteCommandTask, ExecuteScriptTask
 
-class DisplayDateTask(CommandExecTask):
+class DisplayDateTask(ExecuteCommandTask):
     def __init__(self):
-        super().__init__('date', 'display current datetime', 'date')
-        self.set_group('shell')
+        super().__init__("date", "display current datetime", "date")
+        self.set_group("shell")
 
-class MultipleCommandsTask(CommandExecTask):
+class MultipleCommandsTask(ExecuteScriptTask):
     def __init__(self):
-        script = '''
+        script = """
         MYVAR="hello"
         echo $MYVAR, world
         find ~
-        '''
-        super().__init__('script', 'executes multiple commands', script)
-        self.set_group('shell')
+        """
+        super().__init__("script", "executes multiple commands", script)
+        self.set_group("shell")
 
 class Epoch2DateTask(Task):
     def __init__(self):
-        super().__init__('epoch2date', 'convert epoch to date')
+        super().__init__("epoch2date", "convert epoch to date")
 
     def add_arguments(self, parser):
-        parser.add_argument('epoch', type=int, help='unix epoch value')
+        parser.add_argument("epoch", type=int, help="unix epoch value")
 
     def run(self, parsed):
         print(datetime.datetime.fromtimestamp(parsed.epoch).isoformat())
 
-tasks = [DisplayDateTask, MultipleCommandsTask, Epoch2DateTask]
+tasks = [
+    DisplayDateTask,
+    MultipleCommandsTask,
+    Epoch2DateTask,
+]

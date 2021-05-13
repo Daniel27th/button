@@ -16,17 +16,21 @@ setup(
 
     author='Minhwan Kim',
     author_email='minhwan.kim@member.fsf.org',
-    description='Tiny automation tool written by Python',
+    description='Tiny automation tool written in Python',
     keywords='automation build tool',
-    url='https://github.com/somssi/button',
+    url='https://github.com/azurelysium/button',
     project_urls={
-        'Documentation': 'https://github.com/somssi/button',
-        'Source Code': 'https://github.com/somssi/button',
+        'Documentation': 'https://github.com/azurelysium/button',
+        'Source Code': 'https://github.com/azurelysium/button',
     },
     classifiers=[
         'License :: OSI Approved :: MIT License'
     ],
 
+    install_requires=[
+        "colorama==0.4.4",
+        "tabulate==0.8.9",
+    ],
     long_description=long_description,
     long_description_content_type='text/markdown',
 
